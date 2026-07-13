@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ruff
+        run: pip install ruff
+      - name: Ruff check
+        run: ruff check vinext/ || true
+      - name: Ruff format check
+        run: ruff format --check vinext/ || true
+
+  validate-translations:
+    name: Validate vi.csv
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate translation CSV
+        run: |
+          python - <<'EOF'
+          import csv, sys
+
+          path = "vinext/translations/vi.csv"
+          errors = []
+          seen = {}
+          with open(path, encoding="utf-8", newline="") as fh:
+              reader = csv.reader(fh)
+              header = next(reader, None)
+              if header[:2] != ["Source", "Translation"]:
+                  errors.append(f"unexpected header: {header!r}")
+              for i, row in enumerate(reader, start=2):
+                  if len(row) < 2:
+                      errors.append(f"line {i}: fewer than 2 columns: {row!r}")
+                      continue
+                  source, translation = row[0], row[1]
+                  if source == "":
+                      errors.append(f"line {i}: empty Source")
+                  if translation == "":
+                      errors.append(f"line {i}: empty Translation for {source!r}")
+                  key = (source, row[2] if len(row) > 2 else "")
+                  if key in seen:
+                      errors.append(
+                          f"line {i}: duplicate Source {source!r} "
+                          f"(first seen line {seen[key]})"
+                      )
+                  else:
+                      seen[key] = i
+
+          print(f"Checked {len(seen)} translation entries in {path}")
+          if errors:
+              print(f"\n{len(errors)} problem(s) found:")
+              for e in errors[:50]:
+                  print(f"  - {e}")
+              sys.exit(1)
+          EOF
+
+  py-compile:
+    name: Python syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: py_compile
+        run: python -m compileall -q vinext/

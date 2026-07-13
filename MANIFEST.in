@@ -1,0 +1,7 @@
+include MANIFEST.in
+include requirements.txt
+include *.md
+include *.txt
+recursive-include vinext *.csv
+recursive-include vinext *.py
+recursive-include vinext *.txt

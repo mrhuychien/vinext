@@ -1,0 +1,2 @@
+# Patches for vinext go here, one per line.
+# A translation-only app normally needs none.
