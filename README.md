@@ -49,6 +49,16 @@ In the *System Settings → Language* dropdown the record is labelled by its
 `language_name`, so search for **`Tiếng Việt`** or **`vi`** — searching for
 "Vietnamese" finds nothing.
 
+To switch the whole site over in one step instead, write the setting directly:
+
+```bash
+bench --site your-site execute vinext.install.set_site_language
+```
+
+That is what `erpnextvn` does from its Setup Wizard stage. It is not run on
+install here, because installing a translation catalogue should not silently
+re-language a running site.
+
 `bench build` is not needed — this app ships no JS/CSS, and CSV translations
 need no compile step.
 
@@ -140,6 +150,15 @@ bench --site your-site clear-cache && bench restart
 
 Trong dropdown *System Settings → Language*, bản ghi hiển thị theo `language_name`,
 nên hãy tìm **`Tiếng Việt`** hoặc **`vi`** — gõ "Vietnamese" sẽ không ra gì.
+
+Muốn chuyển cả site sang tiếng Việt trong một bước, ghi thẳng vào setting:
+
+```bash
+bench --site your-site execute vinext.install.set_site_language
+```
+
+Đây chính là cách `erpnextvn` làm ở bước Setup Wizard. App này không chạy nó lúc
+cài, vì cài một bộ từ điển thì không nên âm thầm đổi ngôn ngữ của site đang chạy.
 
 Không cần `bench build` — app không có JS/CSS, và bản dịch CSV không cần bước
 biên dịch.

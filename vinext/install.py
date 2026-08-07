@@ -43,3 +43,20 @@ def enable_vietnamese():
 		).insert(ignore_permissions=True)
 
 	frappe.db.commit()
+
+
+def set_site_language():
+	"""Switch the whole site to Vietnamese, the way erpnextvn's setup does.
+
+	`System Settings.language` is a plain Link with no enabled-filter, so
+	writing it directly sidesteps the picker entirely — useful on a site that
+	never went through the Setup Wizard. Deliberately NOT called from
+	`after_install`: installing a translation catalogue should not silently
+	re-language a running site. Run it explicitly:
+
+	    bench --site <site> execute vinext.install.set_site_language
+	"""
+	enable_vietnamese()
+	frappe.db.set_single_value("System Settings", "language", LANGUAGE_CODE)
+	frappe.db.commit()
+	frappe.clear_cache()
