@@ -1,4 +1,3 @@
-Source,Translation,Context
 Submit,Xác nhận,
 Cancel,Hủy,
 Amend,Sửa đổi,
@@ -5850,7 +5849,6 @@ Restricted,Bị hạn chế,
 Unrestricted,Không hạn chế,
 All Users,Tất cả người dùng,
 Selected Users,Người dùng đã chọn,
-# BATCH 18: Geography, Countries, Timezones, Regions
 Region,Khu vực,
 Sub Region,Khu vực con,
 Continent,Châu lục,
@@ -11051,7 +11049,7 @@ Number Format Detail,Chi tiết định dạng số,
 Currency Precision Detail,Độ chính xác tiền tệ,
 Float Precision Detail,Độ chính xác số thực,
 Number Format Example,Ví dụ định dạng số,
-1234567.89,1.234.567,89,
+1234567.89,"1.234.567,89",
 Thousand Separator Dot,Dấu chấm phân cách nghìn,
 Thousand Separator Comma,Dấu phẩy phân cách nghìn,
 Decimal Separator Dot,Dấu chấm thập phân,
@@ -17931,7 +17929,7 @@ ${values.doctype_name} has been added to queue for optimization,${values.doctype
 <li>{}</li>,<li>{}</li>,
 <p>Following {0}s doesn't belong to Company {1} :</p>,<p>{0} sau không thuộc công ty {1}:</p>,
 <p>Posting Date {0} cannot be before Purchase Order date for the following:</p><ul>,<p>Ngày hạch toán {0} không thể trước ngày PO cho:</p><ul>,
-<p>Your OTP secret on {0} has been reset. If you did not perform this reset and did not request it, please contact your System Administrator immediately.</p>,<p>Bí mật OTP của bạn trên {0} đã được đặt lại. Nếu bạn không thực hiện, vui lòng liên hệ quản trị viên.</p>,
+"<p>Your OTP secret on {0} has been reset. If you did not perform this reset and did not request it, please contact your System Administrator immediately.</p>","<p>Bí mật OTP của bạn trên {0} đã được đặt lại. Nếu bạn không thực hiện, vui lòng liên hệ quản trị viên.</p>",
 <strong>Grand Total:</strong> {0},<strong>Tổng cộng:</strong> {0},
 <strong>Outstanding Amount:</strong> {0},<strong>Số tiền còn nợ:</strong> {0},
 <strong>Warning:</strong> This field is system generated and may be overwritten by a future update. Modify it using {0} instead.,<strong>Cảnh báo:</strong> Trường này do HT tạo và có thể bị ghi đè. Hãy sửa qua {0}.,
@@ -18375,12 +18373,24 @@ Default Activity Cost exists for Activity Type - {0},Chi phí HĐ mặc định 
 Default BOM ({0}) must be active for this item or its template,ĐMNVL mặc định ({0}) phải hoạt động cho MH này hoặc mẫu,
 Default BOM for {0} not found,Không tìm thấy ĐMNVL mặc định cho {0},
 Default BOM not found for FG Item {0},Không tìm thấy ĐMNVL mặc định cho thành phẩm {0},
-<b>Cannot create asset.</b><br><br>You're trying to create <b>{0} asset(s)</b> from {2} {3}.<br>However, only <b>{1} item(s)</b> were purchased and <b>{4} asset(s)</b> already exist against {5}.,<b>Không thể tạo tài sản.</b><br><br>Bạn đang cố tạo <b>{0} tài sản</b> từ {2} {3}.<br>Tuy nhiên chỉ có <b>{1} mặt hàng</b> được mua và <b>{4} tài sản</b> đã tồn tại theo {5}.,
+"<b>Cannot create asset.</b><br><br>You're trying to create <b>{0} asset(s)</b> from {2} {3}.<br>However, only <b>{1} item(s)</b> were purchased and <b>{4} asset(s)</b> already exist against {5}.",<b>Không thể tạo tài sản.</b><br><br>Bạn đang cố tạo <b>{0} tài sản</b> từ {2} {3}.<br>Tuy nhiên chỉ có <b>{1} mặt hàng</b> được mua và <b>{4} tài sản</b> đã tồn tại theo {5}.,
 <b>Example:</b> SAL-{first_name}-{date_of_birth.year} <br>This will generate a password like SAL-Jane-1972,<b>Ví dụ:</b> SAL-{first_name}-{date_of_birth.year} <br>Sẽ tạo mật khẩu kiểu SAL-Jane-1972,
-"Additional Transferred Qty {0}|||\t\t\t\t\tcannot be greater than {1}.|||\t\t\t\t\tTo fix this, increase the percentage value|||\t\t\t\t\tof the field 'Transfer Extra Raw Materials to WIP'|||\t\t\t\t\tin Manufacturing Settings.","SL chuyển thêm {0}|||\t\t\t\t\tkhông thể lớn hơn {1}.|||\t\t\t\t\tĐể sửa, tăng giá trị phần trăm|||\t\t\t\t\tcủa trường 'Chuyển NVL thêm vào WIP'|||\t\t\t\t\ttrong Cài đặt Sản xuất.",
-Asset Depreciation Schedules created/updated:<br>{0}<br><br>Please check, edit if needed, and submit the Asset.,"Đã tạo/cập nhật lịch KH:<br>{0}<br><br>Vui lòng kiểm tra, sửa nếu cần và xác nhận TS.",
-"Creation of {0} failed.|||\t\t\t\tCheck <b><a href=""/app/bulk-transaction-log"">Bulk Transaction Log</a></b>","Tạo {0} thất bại.|||\t\t\t\tKiểm tra <b><a href=""/app/bulk-transaction-log"">Nhật ký GD hàng loạt</a></b>",
-"Creation of {0} partially successful.|||\t\t\t\tCheck <b><a href=""/app/bulk-transaction-log"">Bulk Transaction Log</a></b>","Tạo {0} thành công một phần.|||\t\t\t\tKiểm tra <b><a href=""/app/bulk-transaction-log"">Nhật ký GD hàng loạt</a></b>",
+"Additional Transferred Qty {0}
+					cannot be greater than {1}.
+					To fix this, increase the percentage value
+					of the field 'Transfer Extra Raw Materials to WIP'
+					in Manufacturing Settings.","SL chuyển thêm {0}
+					không thể lớn hơn {1}.
+					Để sửa, tăng giá trị phần trăm
+					của trường 'Chuyển NVL thêm vào WIP'
+					trong Cài đặt Sản xuất.",
+"Asset Depreciation Schedules created/updated:<br>{0}<br><br>Please check, edit if needed, and submit the Asset.","Đã tạo/cập nhật lịch KH:<br>{0}<br><br>Vui lòng kiểm tra, sửa nếu cần và xác nhận TS.",
+"Creation of {0} failed.
+				Check <b><a href=""/app/bulk-transaction-log"">Bulk Transaction Log</a></b>","Tạo {0} thất bại.
+				Kiểm tra <b><a href=""/app/bulk-transaction-log"">Nhật ký GD hàng loạt</a></b>",
+"Creation of {0} partially successful.
+				Check <b><a href=""/app/bulk-transaction-log"">Bulk Transaction Log</a></b>","Tạo {0} thành công một phần.
+				Kiểm tra <b><a href=""/app/bulk-transaction-log"">Nhật ký GD hàng loạt</a></b>",
 Default BOM not found for Item {0} and Project {1},Không tìm thấy ĐMNVL mặc định cho MH {0} và DA {1},
 Default Service Level Agreement for {0} already exists.,SLA mặc định cho {0} đã tồn tại.,
 Default Unit of Measure for Item {0} cannot be changed directly because you have already made some transaction(s) with another UOM. You need to either cancel the linked documents or create a new Item.,ĐVT mặc định cho MH {0} không thể đổi trực tiếp vì bạn đã có GD với ĐVT khác. Cần hủy TL liên kết hoặc tạo MH mới.,
@@ -18440,7 +18450,7 @@ Document {0} has been set to state {1} by {2},TL {0} đã được đặt trạn
 Documents: {0} have deferred revenue/expense enabled for them. Cannot repost.,Tài liệu: {0} có doanh thu/chi phí hoãn lại đã bật. Không thể repost.,
 Due Date cannot be after {0},Ngày đến hạn không thể sau {0},
 Due Date cannot be before {0},Ngày đến hạn không thể trước {0},
-Due to stock closing entry {0}, you cannot repost item valuation before {1},Do bút toán đóng kho {0}, bạn không thể repost định giá MH trước {1},
+"Due to stock closing entry {0}, you cannot repost item valuation before {1}","Do bút toán đóng kho {0}, bạn không thể repost định giá MH trước {1}",
 Duplicate Entry. Please check Authorization Rule {0},Dữ liệu trùng. Vui lòng kiểm tra quy tắc ủy quyền {0},
 Duplicate Operating Component {0} found in Operating Components,Tìm thấy thành phần vận hành trùng {0} trong thành phần vận hành,
 Duplicate entry against the item code {0} and manufacturer {1},Dữ liệu trùng theo mã MH {0} và NSX {1},
@@ -19972,7 +19982,7 @@ Unsupported {0}: {1},Không hỗ trợ {0}: {1},
 Unzipped {0} files,Đã giải nén {0} tệp,
 Update stock must be enabled for the purchase invoice {0},Phải bật Cập nhật kho cho hóa đơn mua hàng {0},
 Update {0} records,Cập nhật {0} bản ghi,
-Updated To A New Version \u{1F389},Đã cập nhật lên phiên bản mới \u{1F389},
+Updated To A New Version 🎉,Đã cập nhật lên phiên bản mới 🎉,
 Updated status from {0} to {1} for date {2} in the attendance record {3},Đã cập nhật trạng thái từ {0} sang {1} cho ngày {2} trong bản ghi chấm công {3},
 Updated the Job Applicant status to {0},Đã cập nhật trạng thái Ứng viên thành {0},
 Updated the status of Job Offer {0} for the linked Job Applicant {1} to {2},Đã cập nhật trạng thái Đề nghị công việc {0} cho Ứng viên liên kết {1} thành {2},
@@ -22963,7 +22973,6 @@ Update frequency of Project,Tần suất cập nhật Dự án,
 Update from Frappe Cloud,Cập nhật từ Frappe Cloud,
 Update latest price in all BOMs,Cập nhật giá mới nhất trong tất cả BOM,
 Update timestamp on new communication,Cập nhật timestamp khi có trao đổi mới,
-Updated To A New Version 🎉,Đã cập nhật lên phiên bản mới 🎉,
 Updated via 'Time Log' (In Minutes),Đã cập nhật qua 'Nhật ký Thời gian' (Phút),
 Updating Work Order status,Đang cập nhật trạng thái Lệnh sản xuất,
 Updating naming series options,Đang cập nhật tùy chọn chuỗi đặt tên,

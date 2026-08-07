@@ -1,2 +1,3 @@
-# Patches for vinext go here, one per line.
-# A translation-only app normally needs none.
+[pre_model_sync]
+
+[post_model_sync]

@@ -1,0 +1,41 @@
+[project]
+name = "vinext"
+authors = [
+    { name = "1nguoi.com", email = "hello@1nguoi.com"}
+]
+description = "Vietnamese Language Pack for Frappe / ERPNext"
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+
+# Intentionally empty. A Frappe app must NOT declare frappe/erpnext/hrms as
+# Python dependencies: bench already installs and manages them. Declaring one
+# makes this app the resolution root, which drags frappe in as a transitive
+# node — and frappe's own metadata pins `pypika` to a git URL, which PEP 508
+# forbids resolvers from following second-hand. That is what breaks
+# `bench get-app` with "Package `pypika` was included as a URL dependency".
+dependencies = []
+
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/mrhuychien/vinext"
+Repository = "https://github.com/mrhuychien/vinext.git"
+"Bug Reports" = "https://github.com/mrhuychien/vinext/issues"
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+# Read by bench only (validate_app_dependencies) — never by pip/uv, so it
+# cannot create a resolver edge. This is the correct place to pin frappe.
+[tool.bench.frappe-dependencies]
+frappe = ">=15.0.0,<17.0.0"
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"

@@ -22,6 +22,47 @@ jobs:
       - name: Ruff format check
         run: ruff format --check vinext/ || true
 
+  build:
+    name: Build (metadata must declare no dependencies)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install build
+        run: pip install build
+      - name: Build wheel
+        run: python -m build --wheel --outdir dist/
+      - name: Assert no Requires-Dist
+        # A Frappe app must not depend on frappe/erpnext/hrms. Doing so makes
+        # this app the resolution root, pulling frappe in transitively — and
+        # frappe pins pypika to a git URL, which PEP 508 forbids resolvers from
+        # following second-hand. That breaks `bench get-app`. Guard it here.
+        run: |
+          python - <<'EOF'
+          import glob, sys, zipfile
+
+          whl = glob.glob("dist/*.whl")[0]
+          with zipfile.ZipFile(whl) as z:
+              name = next(n for n in z.namelist() if n.endswith("METADATA"))
+              meta = z.read(name).decode()
+              files = z.namelist()
+
+          reqs = [l for l in meta.splitlines() if l.startswith("Requires-Dist")]
+          if reqs:
+              print("FAIL: wheel declares dependencies, which will break bench get-app:")
+              for r in reqs:
+                  print(f"  {r}")
+              sys.exit(1)
+          print("OK: no Requires-Dist")
+
+          if "vinext/translations/vi.csv" not in files:
+              print("FAIL: vi.csv missing from wheel")
+              sys.exit(1)
+          print("OK: vi.csv packaged")
+          EOF
+
   validate-translations:
     name: Validate vi.csv
     runs-on: ubuntu-latest
@@ -30,29 +71,44 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Validate translation CSV
+      - name: Validate translation CSV the way Frappe parses it
         run: |
           python - <<'EOF'
           import csv, sys
 
+          # Mirrors frappe/translate.py::get_translation_dict_from_file (v16):
+          # a plain csv.reader with NO header skip. Rows whose column count is
+          # not 2 or 3 are dropped and logged to Error Log on every cache
+          # rebuild, so they must never reach the repo.
           path = "vinext/translations/vi.csv"
           errors = []
           seen = {}
+
           with open(path, encoding="utf-8", newline="") as fh:
-              reader = csv.reader(fh)
-              header = next(reader, None)
-              if header[:2] != ["Source", "Translation"]:
-                  errors.append(f"unexpected header: {header!r}")
-              for i, row in enumerate(reader, start=2):
-                  if len(row) < 2:
-                      errors.append(f"line {i}: fewer than 2 columns: {row!r}")
+              for i, row in enumerate(csv.reader(fh), start=1):
+                  if i == 1 and row[:2] == ["Source", "Translation"]:
+                      errors.append(
+                          "line 1: header row present — Frappe parses it as data"
+                      )
+                  if len(row) != 3:
+                      errors.append(
+                          f"line {i}: expected 3 columns, got {len(row)}: {row!r}"
+                      )
                       continue
-                  source, translation = row[0], row[1]
-                  if source == "":
+
+                  source, translation, context = row
+                  if not source:
                       errors.append(f"line {i}: empty Source")
-                  if translation == "":
+                  if not translation:
                       errors.append(f"line {i}: empty Translation for {source!r}")
-                  key = (source, row[2] if len(row) > 2 else "")
+
+                  # Frappe expands a literal \n but leaves \t alone, so a
+                  # literal \t never matches the runtime msgid.
+                  for bad in ("|||", "\\t", "\\u{"):
+                      if bad in source or bad in translation:
+                          errors.append(f"line {i}: unresolved placeholder {bad!r}")
+
+                  key = (source, context)
                   if key in seen:
                       errors.append(
                           f"line {i}: duplicate Source {source!r} "
