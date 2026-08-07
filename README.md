@@ -35,9 +35,22 @@ or *System Settings → Language* (site-wide), and **hard-refresh** the browser
 (`Ctrl+Shift+R`). Desk strings are delivered through `bootinfo`, so a stale
 client-side boot is the usual reason a correct catalogue appears not to apply.
 
-Note: `vi` ships **disabled** in Frappe's `Language` list, so enable the
-*Vietnamese* record for it to be selectable in the picker. `bench build` is not
-needed — this app ships no JS/CSS, and CSV translations need no compile step.
+Installing enables the `vi` Language record for you — Frappe ships it
+**disabled** (`frappe/geo/languages.csv` has `vi,Tiếng Việt,0`) and
+`get_all_languages()` lists only enabled ones, so the pack would otherwise be
+unselectable. If you installed before this was automated, run it by hand:
+
+```bash
+bench --site your-site execute vinext.install.enable_vietnamese
+bench --site your-site clear-cache && bench restart
+```
+
+In the *System Settings → Language* dropdown the record is labelled by its
+`language_name`, so search for **`Tiếng Việt`** or **`vi`** — searching for
+"Vietnamese" finds nothing.
+
+`bench build` is not needed — this app ships no JS/CSS, and CSV translations
+need no compile step.
 
 ### How it works
 
@@ -115,9 +128,21 @@ người dùng) hoặc *System Settings → Language* (toàn site), rồi **tả
 cứng** (`Ctrl+Shift+R`). Chuỗi giao diện Desk đi qua `bootinfo`, nên boot cũ còn
 cache ở trình duyệt là lý do phổ biến nhất khiến bản dịch đúng mà "không thấy ăn".
 
-Lưu ý: bản ghi `vi` trong danh sách `Language` của Frappe mặc định **tắt**, cần
-bật *Vietnamese* thì mới chọn được trong picker. Không cần `bench build` — app
-không có JS/CSS, và bản dịch CSV không cần bước biên dịch.
+Khi cài, app tự bật bản ghi Language `vi` — Frappe ship nó ở trạng thái **tắt**
+(`frappe/geo/languages.csv` có dòng `vi,Tiếng Việt,0`) và `get_all_languages()`
+chỉ liệt kê ngôn ngữ đang bật, nên nếu không bật thì cài xong vẫn không chọn
+được. Nếu bạn đã cài trước khi có bước tự động này, bật thủ công:
+
+```bash
+bench --site your-site execute vinext.install.enable_vietnamese
+bench --site your-site clear-cache && bench restart
+```
+
+Trong dropdown *System Settings → Language*, bản ghi hiển thị theo `language_name`,
+nên hãy tìm **`Tiếng Việt`** hoặc **`vi`** — gõ "Vietnamese" sẽ không ra gì.
+
+Không cần `bench build` — app không có JS/CSS, và bản dịch CSV không cần bước
+biên dịch.
 
 ### Cơ chế hoạt động
 
