@@ -26491,3 +26491,7 @@ Your query:
 Yêu cầu của bạn:
 
 {0}",
+ID,Mã,Label of name column in report
+SWATCHES,MẪU MÀU,
+DRAFT,NHÁP,
+CANCELLED,ĐÃ HỦY,
